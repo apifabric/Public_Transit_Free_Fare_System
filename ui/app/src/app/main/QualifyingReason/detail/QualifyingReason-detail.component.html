@@ -1,0 +1,83 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="description" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="QualifyingReason_form_edit" 
+        service="QualifyingReason" 
+        entity="QualifyingReason" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #description attr="description" label=" description*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CITIZENQUALIFYINGREASON-qualifying_reason_id">
+    <div layout-padding>
+      <o-table 
+        attr="CitizenQualifyingReasonTable" 
+        service="CitizenQualifyingReason" 
+        entity="CitizenQualifyingReason" 
+        keys="id"
+        parent-keys="qualifying_reason_id:id"
+        columns="id;citizen_id;qualifying_reason_id"  
+        horizontal-scroll="yes"
+        detail-form-route="CitizenQualifyingReason" 
+        edit-form-route="CitizenQualifyingReason"
+        visible-columns="id;citizen_id;qualifying_reason_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="citizen_id" title="citizen_id">
+    <o-table-cell-renderer-service attr="citizen_id" 
+        service="Citizen" entity="CitizenType" columns="id;name"
+        parent-keys="id:citizen_id"
+        value-column="name" keys="citizen_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="qualifying_reason_id" title="qualifying_reason_id">
+    <o-table-cell-renderer-service attr="qualifying_reason_id" 
+        service="QualifyingReason" entity="QualifyingReasonType" columns="id;description"
+        parent-keys="id:qualifying_reason_id"
+        value-column="description" keys="qualifying_reason_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

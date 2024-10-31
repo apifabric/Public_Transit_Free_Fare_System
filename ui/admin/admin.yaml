@@ -1,0 +1,339 @@
+about:
+  date: October 31, 2024 17:52:20
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Citizen:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: address
+      required: true
+    - name: household_income
+      required: true
+    - name: qualifies_for_free_travel
+      required: true
+    - name: id
+    description: Represents citizens registering for transport services
+    info_list: Represents citizens registering for transport services
+    tab_groups:
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: CitizenFeedbackList
+      resource: CitizenFeedback
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: CitizenQualifyingReasonList
+      resource: CitizenQualifyingReason
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: RegistrationList
+      resource: Registration
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: ServiceUsageHistoryList
+      resource: ServiceUsageHistory
+    type: Citizen
+    user_key: name
+  CitizenFeedback:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: citizen_id
+      required: true
+    - name: feedback
+      required: true
+    - name: feedback_date
+      type: DATETIME
+    description: Stores feedback from citizens regarding the services
+    info_list: Stores feedback from citizens regarding the services
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    type: CitizenFeedback
+    user_key: id
+  CitizenQualifyingReason:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: citizen_id
+      required: true
+    - name: qualifying_reason_id
+      required: true
+    description: Links citizens with their qualifying reasons
+    info_list: Links citizens with their qualifying reasons
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - qualifying_reason_id
+      name: qualifying_reason
+      resource: QualifyingReason
+    type: CitizenQualifyingReason
+    user_key: id
+  Discount:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_id
+      required: true
+    - name: discount_amount
+      required: true
+    - name: eligibility_criteria
+      required: true
+    description: Represents discounts available on transport services
+    info_list: Represents discounts available on transport services
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: Discount
+    user_key: id
+  Driver:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: license_number
+      required: true
+    - name: id
+    description: Represents drivers for transport services
+    info_list: Represents drivers for transport services
+    tab_groups:
+    - direction: tomany
+      fks:
+      - driver_id
+      name: ServiceDriverList
+      resource: ServiceDriver
+    type: Driver
+    user_key: name
+  IncomeThreshold:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: threshold_amount
+      required: true
+    description: Represents income thresholds for qualification
+    info_list: Represents income thresholds for qualification
+    type: IncomeThreshold
+    user_key: id
+  QualifyingReason:
+    attributes:
+    - label: ' description*'
+      name: description
+      required: true
+      search: true
+      sort: true
+    - name: id
+    description: Represents various reasons for qualification for free travel
+    info_list: Represents various reasons for qualification for free travel
+    tab_groups:
+    - direction: tomany
+      fks:
+      - qualifying_reason_id
+      name: CitizenQualifyingReasonList
+      resource: CitizenQualifyingReason
+    type: QualifyingReason
+    user_key: description
+  Registration:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: citizen_id
+      required: true
+    - name: service_id
+      required: true
+    - name: registration_date
+      type: DATETIME
+    description: Links citizens with the transport service registrations
+    info_list: Links citizens with the transport service registrations
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: Registration
+    user_key: id
+  ServiceDriver:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: driver_id
+      required: true
+    - name: service_id
+      required: true
+    description: Links services with their drivers
+    info_list: Links services with their drivers
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceDriver
+    user_key: id
+  ServiceSchedule:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_id
+      required: true
+    - name: schedule_details
+      required: true
+    description: Represents the schedule for transport services
+    info_list: Represents the schedule for transport services
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceSchedule
+    user_key: id
+  ServiceUsageHistory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: citizen_id
+      required: true
+    - name: service_id
+      required: true
+    - name: usage_date
+      required: true
+      type: DATETIME
+    description: Tracks the usage history of services by citizens
+    info_list: Tracks the usage history of services by citizens
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceUsageHistory
+    user_key: id
+  TransportService:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Represents different transport services available
+    info_list: Represents different transport services available
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: DiscountList
+      resource: Discount
+    - direction: tomany
+      fks:
+      - service_id
+      name: RegistrationList
+      resource: Registration
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceDriverList
+      resource: ServiceDriver
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceScheduleList
+      resource: ServiceSchedule
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceUsageHistoryList
+      resource: ServiceUsageHistory
+    type: TransportService
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

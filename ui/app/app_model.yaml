@@ -1,0 +1,503 @@
+about:
+  date: October 31, 2024 17:52:20
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Citizen:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: address
+      required: true
+      template: text
+      type: VARCHAR
+    - name: household_income
+      required: true
+      template: real
+      type: FLOAT
+    - name: qualifies_for_free_travel
+      required: true
+      template: text
+      type: BOOLEAN
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents citizens registering for transport services
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents citizens registering for transport services
+    label: Citizen
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: CitizenFeedbackList
+      resource: CitizenFeedback
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: CitizenQualifyingReasonList
+      resource: CitizenQualifyingReason
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: RegistrationList
+      resource: Registration
+    - direction: tomany
+      fks:
+      - citizen_id
+      name: ServiceUsageHistoryList
+      resource: ServiceUsageHistory
+    type: Citizen
+  CitizenFeedback:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: citizen_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: feedback
+      required: true
+      template: text
+      type: VARCHAR
+    - name: feedback_date
+      type: DATETIME
+    description: Stores feedback from citizens regarding the services
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Stores feedback from citizens regarding the services
+    label: CitizenFeedback
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    type: CitizenFeedback
+  CitizenQualifyingReason:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: citizen_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: qualifying_reason_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Links citizens with their qualifying reasons
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Links citizens with their qualifying reasons
+    label: CitizenQualifyingReason
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - qualifying_reason_id
+      name: qualifying_reason
+      resource: QualifyingReason
+    type: CitizenQualifyingReason
+  Discount:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: service_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: discount_amount
+      required: true
+      template: real
+      type: FLOAT
+    - name: eligibility_criteria
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents discounts available on transport services
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents discounts available on transport services
+    label: Discount
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: Discount
+  Driver:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: license_number
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents drivers for transport services
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents drivers for transport services
+    label: Driver
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - driver_id
+      name: ServiceDriverList
+      resource: ServiceDriver
+    type: Driver
+  IncomeThreshold:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: threshold_amount
+      required: true
+      template: real
+      type: FLOAT
+    description: Represents income thresholds for qualification
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents income thresholds for qualification
+    label: IncomeThreshold
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: IncomeThreshold
+  QualifyingReason:
+    columns:
+    - label: ' description*'
+      name: description
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents various reasons for qualification for free travel
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    home_template: home_template.html
+    info_list: Represents various reasons for qualification for free travel
+    label: QualifyingReason
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - qualifying_reason_id
+      name: CitizenQualifyingReasonList
+      resource: CitizenQualifyingReason
+    type: QualifyingReason
+  Registration:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: citizen_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: service_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: registration_date
+      type: DATETIME
+    description: Links citizens with the transport service registrations
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Links citizens with the transport service registrations
+    label: Registration
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: Registration
+  ServiceDriver:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: driver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: service_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Links services with their drivers
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Links services with their drivers
+    label: ServiceDriver
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceDriver
+  ServiceSchedule:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: service_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: schedule_details
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents the schedule for transport services
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents the schedule for transport services
+    label: ServiceSchedule
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceSchedule
+  ServiceUsageHistory:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: citizen_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: service_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: usage_date
+      required: true
+      type: DATETIME
+    description: Tracks the usage history of services by citizens
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Tracks the usage history of services by citizens
+    label: ServiceUsageHistory
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - citizen_id
+      name: citizen
+      resource: Citizen
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: TransportService
+    type: ServiceUsageHistory
+  TransportService:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents different transport services available
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents different transport services available
+    label: TransportService
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: DiscountList
+      resource: Discount
+    - direction: tomany
+      fks:
+      - service_id
+      name: RegistrationList
+      resource: Registration
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceDriverList
+      resource: ServiceDriver
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceScheduleList
+      resource: ServiceSchedule
+    - direction: tomany
+      fks:
+      - service_id
+      name: ServiceUsageHistoryList
+      resource: ServiceUsageHistory
+    type: TransportService
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

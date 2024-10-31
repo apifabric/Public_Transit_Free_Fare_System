@@ -1,0 +1,56 @@
+<o-form #ServiceUsageHistoryForm attr="ServiceUsageHistory_form_insert" service="ServiceUsageHistory" entity="ServiceUsageHistory" 
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-list-picker 
+        attr="citizen_id"
+        service="Citizen" 
+        entity="CitizenType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;citizen_id;name" 
+        title="citizen_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-list-picker 
+        attr="service_id"
+        service="TransportService" 
+        entity="TransportServiceType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;service_id;name" 
+        title="service_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-date-input #usage_date attr="usage_date" type="timestamp" label="usage_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

@@ -1,0 +1,111 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Citizen: Represents citizens registering for transport services
+CitizenFeedback: Stores feedback from citizens regarding the services
+CitizenQualifyingReason: Links citizens with their qualifying reasons
+QualifyingReason: Represents various reasons for qualification for free travel
+Discount: Represents discounts available on transport services
+TransportService: Represents different transport services available
+Driver: Represents drivers for transport services
+IncomeThreshold: Represents income thresholds for qualification
+Registration: Links citizens with the transport service registrations
+ServiceDriver: Links services with their drivers
+ServiceSchedule: Represents the schedule for transport services
+ServiceUsageHistory: Tracks the usage history of services by citizens
+'''
+}
+
+Table Citizen {
+    id INTEGER [primary key]
+    name VARCHAR 
+    address VARCHAR 
+    household_income FLOAT 
+    qualifies_for_free_travel BOOLEAN 
+    }
+
+Table CitizenFeedback {
+    id INTEGER [primary key]
+    citizen_id INTEGER 
+    feedback VARCHAR 
+    feedback_date DATETIME 
+    }
+
+Table CitizenQualifyingReason {
+    id INTEGER [primary key]
+    citizen_id INTEGER 
+    qualifying_reason_id INTEGER 
+    }
+
+Table QualifyingReason {
+    id INTEGER [primary key]
+    description VARCHAR 
+    }
+
+Table Discount {
+    id INTEGER [primary key]
+    service_id INTEGER 
+    discount_amount FLOAT 
+    eligibility_criteria VARCHAR 
+    }
+
+Table TransportService {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    }
+
+Table Driver {
+    id INTEGER [primary key]
+    name VARCHAR 
+    license_number VARCHAR 
+    }
+
+Table IncomeThreshold {
+    id INTEGER [primary key]
+    threshold_amount FLOAT 
+    }
+
+Table Registration {
+    id INTEGER [primary key]
+    citizen_id INTEGER 
+    service_id INTEGER 
+    registration_date DATETIME 
+    }
+
+Table ServiceDriver {
+    id INTEGER [primary key]
+    service_id INTEGER 
+    driver_id INTEGER 
+    }
+
+Table ServiceSchedule {
+    id INTEGER [primary key]
+    service_id INTEGER 
+    schedule_details VARCHAR 
+    }
+
+Table ServiceUsageHistory {
+    id INTEGER [primary key]
+    citizen_id INTEGER 
+    service_id INTEGER 
+    usage_date DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: CitizenFeedback.(citizen_id) < Citizen.(id)
+    Ref: CitizenQualifyingReason.(citizen_id) < Citizen.(id)
+    Ref: CitizenQualifyingReason.(qualifying_reason_id) < QualifyingReason.(id)
+    Ref: Discount.(service_id) < TransportService.(id)
+    Ref: Registration.(citizen_id) < Citizen.(id)
+    Ref: Registration.(service_id) < TransportService.(id)
+    Ref: ServiceDriver.(driver_id) < Driver.(id)
+    Ref: ServiceDriver.(service_id) < TransportService.(id)
+    Ref: ServiceSchedule.(service_id) < TransportService.(id)
+    Ref: ServiceUsageHistory.(citizen_id) < Citizen.(id)
+    Ref: ServiceUsageHistory.(service_id) < TransportService.(id)
